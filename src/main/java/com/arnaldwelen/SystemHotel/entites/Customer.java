@@ -9,26 +9,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_room")
-public class Room {
+@Table(name = "tb_customer")
+public class Customer {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Integer roomNumber;
-	private Double price;
-	private String type;
+	private String name;
+	private Integer cpf;
+	private String document;
 	
-	public Room() {
+	public Customer() {
 		
 	}
 
-	public Room(Long id, Integer roomNumber, Double price, String type) {
+	public Customer(Long id, String name, Integer cpf, String document) {
 		super();
 		this.id = id;
-		this.roomNumber = roomNumber;
-		this.price = price;
-		this.type = type;
+		this.name = name;
+		this.cpf = cpf;
+		this.document = document;
 	}
 
 	public Long getId() {
@@ -39,28 +39,28 @@ public class Room {
 		this.id = id;
 	}
 
-	public Integer getRoomNumber() {
-		return roomNumber;
+	public String getName() {
+		return name;
 	}
 
-	public void setRoomNumber(Integer roomNumber) {
-		this.roomNumber = roomNumber;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Double getPrice() {
-		return price;
+	public Integer getCpf() {
+		return cpf;
 	}
 
-	public void setPrice(Double price) {
-		this.price = price;
+	public void setCpf(Integer cpf) {
+		this.cpf = cpf;
 	}
 
-	public String getType() {
-		return type;
+	public String getDocument() {
+		return document;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setDocument(String document) {
+		this.document = document;
 	}
 
 	@Override
@@ -76,9 +76,10 @@ public class Room {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Room other = (Room) obj;
+		Customer other = (Customer) obj;
 		return Objects.equals(id, other.id);
 	}
+	
 	
 	
 

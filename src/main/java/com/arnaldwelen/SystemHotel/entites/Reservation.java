@@ -1,5 +1,6 @@
 package com.arnaldwelen.SystemHotel.entites;
 
+import java.util.Date;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
@@ -9,26 +10,24 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "tb_room")
-public class Room {
-	
+@Table(name = "tb_reservation")
+public class Reservation {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Integer roomNumber;
-	private Double price;
-	private String type;
-	
-	public Room() {
-		
+	private Date checkIn;
+	private Date checkOut;
+
+	public Reservation() {
+
 	}
 
-	public Room(Long id, Integer roomNumber, Double price, String type) {
+	public Reservation(Long id, Date checkIn, Date checkOut) {
 		super();
 		this.id = id;
-		this.roomNumber = roomNumber;
-		this.price = price;
-		this.type = type;
+		this.checkIn = checkIn;
+		this.checkOut = checkOut;
 	}
 
 	public Long getId() {
@@ -39,28 +38,20 @@ public class Room {
 		this.id = id;
 	}
 
-	public Integer getRoomNumber() {
-		return roomNumber;
+	public Date getCheckIn() {
+		return checkIn;
 	}
 
-	public void setRoomNumber(Integer roomNumber) {
-		this.roomNumber = roomNumber;
+	public void setCheckIn(Date checkIn) {
+		this.checkIn = checkIn;
 	}
 
-	public Double getPrice() {
-		return price;
+	public Date getCheckOut() {
+		return checkOut;
 	}
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
+	public void setCheckOut(Date checkOut) {
+		this.checkOut = checkOut;
 	}
 
 	@Override
@@ -76,7 +67,7 @@ public class Room {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Room other = (Room) obj;
+		Reservation other = (Reservation) obj;
 		return Objects.equals(id, other.id);
 	}
 	
