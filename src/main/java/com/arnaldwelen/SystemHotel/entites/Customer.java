@@ -1,11 +1,16 @@
 package com.arnaldwelen.SystemHotel.entites;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,6 +23,10 @@ public class Customer {
 	private String name;
 	private Integer cpf;
 	private String document;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "client")
+	private List<Reservation> reservation = new ArrayList<>();
 	
 	public Customer() {
 		
@@ -61,6 +70,10 @@ public class Customer {
 
 	public void setDocument(String document) {
 		this.document = document;
+	}
+	
+	public List<Reservation> getReservation(){
+		return reservation;
 	}
 
 	@Override

@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -18,16 +20,25 @@ public class Reservation {
 	private Long id;
 	private Date checkIn;
 	private Date checkOut;
+	
+	@ManyToOne
+	@JoinColumn(name = "client_id")
+	private Customer client;
+	
+	@ManyToOne
+	private Room room;
 
 	public Reservation() {
 
 	}
 
-	public Reservation(Long id, Date checkIn, Date checkOut) {
+	public Reservation(Long id, Date checkIn, Date checkOut, Customer client, Room room) {
 		super();
 		this.id = id;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
+		this.client = client;
+		this.room = room;
 	}
 
 	public Long getId() {
@@ -52,6 +63,24 @@ public class Reservation {
 
 	public void setCheckOut(Date checkOut) {
 		this.checkOut = checkOut;
+	}
+	
+
+	public Customer getClient() {
+		return client;
+	}
+
+	public void setClient(Customer client) {
+		this.client = client;
+	}
+	
+
+	public Room getRoom() {
+		return room;
+	}
+
+	public void setRoom(Room room) {
+		this.room = room;
 	}
 
 	@Override
