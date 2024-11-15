@@ -3,6 +3,8 @@ package com.arnaldwelen.SystemHotel.entites;
 import java.util.Date;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +28,8 @@ public class Reservation {
 	private Customer client;
 	
 	@ManyToOne
+	@JsonIgnore
+	@JoinColumn(name = "room_id") 
 	private Room room;
 
 	public Reservation() {

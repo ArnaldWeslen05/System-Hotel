@@ -22,6 +22,7 @@ public class Room {
 	private Double price;
 	private String type;
 	
+	
 	@OneToMany(mappedBy = "room")
 	private List<Reservation> reservation = new ArrayList<>();
 	
