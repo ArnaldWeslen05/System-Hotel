@@ -3,6 +3,7 @@ package com.arnaldwelen.SystemHotel.entites;
 import java.util.Date;
 import java.util.Objects;
 
+import com.arnaldwelen.SystemHotel.entites.enums.ReservationStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -22,27 +23,31 @@ public class Reservation {
 	private Long id;
 	private Date checkIn;
 	private Date checkOut;
-	
+
+	private Integer reservationStatus;
+
 	@ManyToOne
 	@JoinColumn(name = "client_id")
 	private Customer client;
-	
+
 	@ManyToOne
 	@JsonIgnore
-	@JoinColumn(name = "room_id") 
+	@JoinColumn(name = "room_id")
 	private Room room;
 
 	public Reservation() {
-
+		this.reservationStatus = ReservationStatus.WAITING_PAYMENT.getCode();
 	}
 
-	public Reservation(Long id, Date checkIn, Date checkOut, Customer client, Room room) {
+	public Reservation(Long id, Date checkIn, Date checkOut, ReservationStatus reservationStatus, Customer client,
+			Room room) {
 		super();
 		this.id = id;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
 		this.client = client;
 		this.room = room;
+		this.setReservationStatus(reservationStatus != null ? reservationStatus : ReservationStatus.WAITING_PAYMENT);
 	}
 
 	public Long getId() {
@@ -68,7 +73,16 @@ public class Reservation {
 	public void setCheckOut(Date checkOut) {
 		this.checkOut = checkOut;
 	}
-	
+
+	public ReservationStatus getReservationStatus() {
+		return reservationStatus != null ? ReservationStatus.valueOf(reservationStatus) : null;
+	}
+
+	public void setReservationStatus(ReservationStatus orderStatus) {
+		if (orderStatus != null) {
+			this.reservationStatus = orderStatus.getCode();
+		}
+	}
 
 	public Customer getClient() {
 		return client;
@@ -77,7 +91,6 @@ public class Reservation {
 	public void setClient(Customer client) {
 		this.client = client;
 	}
-	
 
 	public Room getRoom() {
 		return room;
@@ -103,7 +116,5 @@ public class Reservation {
 		Reservation other = (Reservation) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
 
 }
