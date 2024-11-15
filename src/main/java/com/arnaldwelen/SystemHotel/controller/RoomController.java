@@ -25,8 +25,9 @@ public class RoomController {
 		return ResponseEntity.ok().body(list);
 	}
 	
-	public ResponseEntity<Room > findById(@PathVariable Long Id){
-		Room obj = room.findById(Id);
+	@GetMapping("/{id}")
+	public ResponseEntity<Room > findById(@PathVariable Long id){
+		Room obj = room.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 

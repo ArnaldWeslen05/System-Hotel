@@ -18,20 +18,17 @@ public class ReservationController {
 
 	@Autowired
 	private ReservationService service;
-	
+
 	@GetMapping
-	public ResponseEntity<List<Reservation>> findAll(){
+	public ResponseEntity<List<Reservation>> findAll() {
 		List<Reservation> list = service.findAll();
 		return ResponseEntity.ok().body(list);
-		
+
 	}
-	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<Reservation> findById(@PathVariable Long Id){
-		Reservation obj = service.findById(Id);
+
+	@GetMapping("/{id}")
+	public ResponseEntity<Reservation> findById(@PathVariable Long id) {
+		Reservation obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
-	
-	
-	
 }

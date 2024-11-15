@@ -19,8 +19,8 @@ public class RoomService {
 		return service.findAll();
 	}
 	
-	public Room findById(Long Id) {
-		Optional<Room> obj = service.findById(Id);
+	public Room findById(Long id) {
+		Optional<Room> obj = service.findById(id);
 		return obj.get();
 	}
 }
