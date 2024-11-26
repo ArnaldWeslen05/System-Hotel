@@ -1,6 +1,8 @@
 package com.arnaldwelen.SystemHotel.entites;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 import com.arnaldwelen.SystemHotel.entites.enums.ReservationStatus;
@@ -12,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,7 +26,6 @@ public class Reservation {
 	private Long id;
 	private Date checkIn;
 	private Date checkOut;
-
 	private Integer reservationStatus;
 
 	@ManyToOne
@@ -34,6 +36,9 @@ public class Reservation {
 	@JsonIgnore
 	@JoinColumn(name = "room_id")
 	private Room room;
+	
+	@OneToMany(mappedBy = "reservation")
+	private List<Payment> list = new ArrayList<>();
 
 	public Reservation() {
 		this.reservationStatus = ReservationStatus.WAITING_PAYMENT.getCode();
