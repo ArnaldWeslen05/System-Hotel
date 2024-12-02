@@ -36,9 +36,13 @@ public class Reservation {
 	@JsonIgnore
 	@JoinColumn(name = "room_id")
 	private Room room;
-	
+
 	@OneToMany(mappedBy = "reservation")
 	private List<Payment> list = new ArrayList<>();
+
+	
+	@OneToMany(mappedBy = "reservation")
+	private List<Consumption> consumptions = new ArrayList<>();
 
 	public Reservation() {
 		this.reservationStatus = ReservationStatus.WAITING_PAYMENT.getCode();
@@ -103,6 +107,10 @@ public class Reservation {
 
 	public void setRoom(Room room) {
 		this.room = room;
+	}
+
+	public List<Consumption> getConsumptions() {
+		return consumptions;
 	}
 
 	@Override

@@ -1,11 +1,16 @@
 package com.arnaldwelen.SystemHotel.entites;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Product {
@@ -17,7 +22,12 @@ public class Product {
 	private String name;
 	private Double price;
 	private String description;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "product")
+	private List<Consumption> consumptions = new ArrayList<>();
 
+	
 	public Product() {
 
 	}
@@ -61,6 +71,14 @@ public class Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	public List<Consumption> getConsumptions() {
+	    return consumptions;
+	}
+
+	public void setConsumptions(List<Consumption> consumptions) {
+	    this.consumptions = consumptions;
+	}
+
 
 	@Override
 	public int hashCode() {
