@@ -1,5 +1,6 @@
 package com.arnaldwelen.SystemHotel.config;
 
+import java.time.Instant;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +57,8 @@ public class TestConfig implements CommandLineRunner {
         roomRepository.save(room25);
 
         Reservation reservation1 = new Reservation();
-        reservation1.setCheckIn(new Date());
-        reservation1.setCheckOut(new Date());
+        reservation1.setCheckIn(Instant.parse("2024-12-02T12:00:00Z"));
+        reservation1.setCheckOut(Instant.parse("2024-12-04T12:00:00Z"));
         reservation1.setClient(customer1);
         reservation1.setRoom(room25);
         reservationRepository.save(reservation1);

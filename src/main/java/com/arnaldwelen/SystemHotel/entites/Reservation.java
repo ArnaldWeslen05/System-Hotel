@@ -1,13 +1,15 @@
 package com.arnaldwelen.SystemHotel.entites;
 
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 import com.arnaldwelen.SystemHotel.entites.enums.ReservationStatus;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,113 +23,115 @@ import jakarta.persistence.Table;
 @Table(name = "tb_reservation")
 public class Reservation {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private Date checkIn;
-	private Date checkOut;
-	private Integer reservationStatus;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "client_id")
-	private Customer client;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+    private Instant checkIn;
 
-	@ManyToOne
-	@JsonIgnore
-	@JoinColumn(name = "room_id")
-	private Room room;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+    private Instant checkOut;
 
-	@OneToMany(mappedBy = "reservation")
-	private List<Payment> list = new ArrayList<>();
+    private Integer reservationStatus;
 
-	
-	@OneToMany(mappedBy = "reservation")
-	private List<Consumption> consumptions = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Customer client;
 
-	public Reservation() {
-		this.reservationStatus = ReservationStatus.WAITING_PAYMENT.getCode();
-	}
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "room_id")
+    private Room room;
 
-	public Reservation(Long id, Date checkIn, Date checkOut, ReservationStatus reservationStatus, Customer client,
-			Room room) {
-		super();
-		this.id = id;
-		this.checkIn = checkIn;
-		this.checkOut = checkOut;
-		this.client = client;
-		this.room = room;
-		this.setReservationStatus(reservationStatus != null ? reservationStatus : ReservationStatus.WAITING_PAYMENT);
-	}
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
+    private List<Payment> list = new ArrayList<>();
 
-	public Long getId() {
-		return id;
-	}
+    @OneToMany(mappedBy = "reservation")
+    private List<Consumption> consumptions = new ArrayList<>();
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Reservation() {
+        this.reservationStatus = ReservationStatus.WAITING_PAYMENT.getCode();
+    }
 
-	public Date getCheckIn() {
-		return checkIn;
-	}
+    public Reservation(Long id, Instant checkIn, Instant checkOut, ReservationStatus reservationStatus, Customer client,
+                       Room room) {
+        this.id = id;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.client = client;
+        this.room = room;
+        this.setReservationStatus(reservationStatus != null ? reservationStatus : ReservationStatus.WAITING_PAYMENT);
+    }
 
-	public void setCheckIn(Date checkIn) {
-		this.checkIn = checkIn;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Date getCheckOut() {
-		return checkOut;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setCheckOut(Date checkOut) {
-		this.checkOut = checkOut;
-	}
+    public Instant getCheckIn() {
+        return checkIn;
+    }
 
-	public ReservationStatus getReservationStatus() {
-		return reservationStatus != null ? ReservationStatus.valueOf(reservationStatus) : null;
-	}
+    public void setCheckIn(Instant checkIn) {
+        this.checkIn = checkIn;
+    }
 
-	public void setReservationStatus(ReservationStatus orderStatus) {
-		if (orderStatus != null) {
-			this.reservationStatus = orderStatus.getCode();
-		}
-	}
+    public Instant getCheckOut() {
+        return checkOut;
+    }
 
-	public Customer getClient() {
-		return client;
-	}
+    public void setCheckOut(Instant checkOut) {
+        this.checkOut = checkOut;
+    }
 
-	public void setClient(Customer client) {
-		this.client = client;
-	}
+    public ReservationStatus getReservationStatus() {
+        return reservationStatus != null ? ReservationStatus.valueOf(reservationStatus) : null;
+    }
 
-	public Room getRoom() {
-		return room;
-	}
+    public void setReservationStatus(ReservationStatus reservationStatus) {
+        if (reservationStatus != null) {
+            this.reservationStatus = reservationStatus.getCode();
+        }
+    }
 
-	public void setRoom(Room room) {
-		this.room = room;
-	}
+    public Customer getClient() {
+        return client;
+    }
 
-	public List<Consumption> getConsumptions() {
-		return consumptions;
-	}
+    public void setClient(Customer client) {
+        this.client = client;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
+    public Room getRoom() {
+        return room;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Reservation other = (Reservation) obj;
-		return Objects.equals(id, other.id);
-	}
+    public void setRoom(Room room) {
+        this.room = room;
+    }
 
+    public List<Consumption> getConsumptions() {
+        return consumptions;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Reservation other = (Reservation) obj;
+        return Objects.equals(id, other.id);
+    }
 }
