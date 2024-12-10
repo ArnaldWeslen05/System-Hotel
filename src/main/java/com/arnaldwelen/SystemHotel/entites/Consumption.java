@@ -1,8 +1,9 @@
 package com.arnaldwelen.SystemHotel.entites;
 
-import java.util.Date;
+import java.time.Instant;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -21,7 +22,8 @@ public class Consumption {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long consumptionId;
 
-	private Date date;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
+    private Instant date;
 
 	private Integer quantity;
 
@@ -40,7 +42,7 @@ public class Consumption {
 	
 	
 
-	public Consumption(Long consumptionId, Date date, Integer quantity, Reservation reservation, Product product) {
+	public Consumption(Long consumptionId,  Instant date, Integer quantity, Reservation reservation, Product product) {
 		super();
 		this.consumptionId = consumptionId;
 		this.date = date;
@@ -51,19 +53,19 @@ public class Consumption {
 
 
 
-	public Long getConsumptionId() {
+	public Long getId() {
 		return consumptionId;
 	}
 
-	public void setConsumptionId(Long consumptionId) {
+	public void setId(Long consumptionId) {
 		this.consumptionId = consumptionId;
 	}
 
-	public Date getDate() {
+	public Instant getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Instant date) {
 		this.date = date;
 	}
 
