@@ -46,7 +46,7 @@ public class TestConfig implements CommandLineRunner {
         
         Customer customer1 = new Customer();
         customer1.setName("Arnaldo Weslen");
-        customer1.setCpf(34003404);
+        customer1.setCpf((long) 3400340);
         customer1.setDocument("123456789");
         customerRepository.save(customer1);
 

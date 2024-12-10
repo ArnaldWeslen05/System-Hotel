@@ -21,7 +21,7 @@ public class Customer {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	private Integer cpf;
+	private Long cpf;
 	private String document;
 	
 	@JsonIgnore
@@ -32,7 +32,7 @@ public class Customer {
 		
 	}
 
-	public Customer(Long id, String name, Integer cpf, String document) {
+	public Customer(Long id, String name, Long cpf, String document) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -56,11 +56,11 @@ public class Customer {
 		this.name = name;
 	}
 
-	public Integer getCpf() {
+	public Long getCpf() {
 		return cpf;
 	}
 
-	public void setCpf(Integer cpf) {
+	public void setCpf(Long cpf) {
 		this.cpf = cpf;
 	}
 
