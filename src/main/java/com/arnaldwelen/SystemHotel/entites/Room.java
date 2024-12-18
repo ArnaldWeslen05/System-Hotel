@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
@@ -14,7 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "reservation"})
 @Table(name = "tb_room")
 public class Room {
 	
@@ -27,6 +28,7 @@ public class Room {
 	
 	
 	@OneToMany(mappedBy = "room")
+    @JsonBackReference
 	private List<Reservation> reservation = new ArrayList<>();
 	
 	public Room() {

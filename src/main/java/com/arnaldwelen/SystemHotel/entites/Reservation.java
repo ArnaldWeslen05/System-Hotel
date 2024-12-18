@@ -7,7 +7,8 @@ import java.util.Objects;
 
 import com.arnaldwelen.SystemHotel.entites.enums.ReservationStatus;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -20,6 +21,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
+@JsonIgnoreProperties({"room", "client", "list", "consumptions"})
 @Table(name = "tb_reservation")
 public class Reservation {
 
@@ -40,8 +42,8 @@ public class Reservation {
     private Customer client;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "room_id")
+    @JsonManagedReference
     private Room room;
 
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
@@ -49,6 +51,9 @@ public class Reservation {
 
     @OneToMany(mappedBy = "reservation")
     private List<Consumption> consumptions = new ArrayList<>();
+    
+  
+
 
     public Reservation() {
         this.reservationStatus = ReservationStatus.WAITING_PAYMENT.getCode();
