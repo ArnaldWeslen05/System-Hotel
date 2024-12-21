@@ -29,6 +29,7 @@ public class ReservationService {
     
     public Reservation insert(Reservation obj) {
     	
+    	
     	if(obj.getRoom() == null || obj.getRoom().getId() == null) {
     		throw new IllegalArgumentException("Room é obrigatório e deve conter um ID.");
     	}
