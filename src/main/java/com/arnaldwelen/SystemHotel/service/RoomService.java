@@ -27,8 +27,12 @@ public class RoomService {
     }
 
     public Room insert(Room obj) {
+    	if (repository.existsByRoomNumber(obj.getRoomNumber())) {
+    		throw new IllegalArgumentException("O quarto de numero " + obj.getRoomNumber() + " já existe");
+    	}
         return repository.save(obj);
     }
+   
 
     public void delete(Long id) {
         if (!repository.existsById(id)) {
