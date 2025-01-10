@@ -34,29 +34,26 @@ public class ConsumptionService {
                 .orElseThrow(() -> new EntityNotFoundException("Consumption not found with id: " + id));
     }
 
-    public Consumption insert(Consumption obj) {
-        Reservation reservation = obj.getReservation();
-
-        if (reservation != null) {
-            Optional<Reservation> existingReservation = reservationRepository.findById(reservation.getId());
-
+    public Consumption insert(Consumption obj, Long id) {
+        if (obj.getReservation() != null) {
+            Optional<Reservation> existingReservation = reservationRepository.findById(id);
             if (existingReservation.isPresent()) {
-                obj.setReservation(existingReservation.get());
+                obj.setReservation(existingReservation.get());  
             } else {
-
+                
                 Reservation tempReservation = new Reservation();
-                reservationRepository.save(tempReservation);  
-                obj.setReservation(tempReservation);  
+                reservationRepository.save(tempReservation);
+                obj.setReservation(tempReservation);
             }
         } else {
-
             Reservation tempReservation = new Reservation();
-            reservationRepository.save(tempReservation);  
-            obj.setReservation(tempReservation);  
+            reservationRepository.save(tempReservation);
+            obj.setReservation(tempReservation);
         }
 
         return consumptionRepository.save(obj);
     }
+
 
     public double calculateTotalConsumption(Long reservationId) {
 

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.arnaldwelen.SystemHotel.entites.Consumption;
+import com.arnaldwelen.SystemHotel.entites.Reservation;
 import com.arnaldwelen.SystemHotel.service.ConsumptionService;
 
 @RestController
@@ -37,12 +38,12 @@ public class ConsumptionController {
 		return ResponseEntity.ok().body(obj);
 	}
 
-	@PostMapping
-	public ResponseEntity<Consumption> createConsumption(@RequestBody Consumption consumption) {
-		Consumption savedConsumption = service.insert(consumption);
-		return ResponseEntity.status(HttpStatus.CREATED).body(savedConsumption);
-	}
-
+	 @PostMapping("/{id}")
+	    public ResponseEntity<Consumption> createConsumption(@RequestBody Consumption consumption, @PathVariable Long id) {
+	        consumption.setReservation(new Reservation());  
+	        Consumption savedConsumption = service.insert(consumption, id);
+	        return ResponseEntity.status(HttpStatus.CREATED).body(savedConsumption);
+	    }
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		service.delete(id);
