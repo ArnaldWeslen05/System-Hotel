@@ -7,51 +7,86 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.arnaldwelen.SystemHotel.entites.Consumption;
+import com.arnaldwelen.SystemHotel.entites.Reservation;
 import com.arnaldwelen.SystemHotel.repository.ConsumptionRepository;
+import com.arnaldwelen.SystemHotel.repository.ReservationRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class ConsumptionService {
 
-	@Autowired
-	private ConsumptionRepository consumption;
-	
-	public List<Consumption> findAll(){
-		return consumption.findAll();
-	}
-	
-	public  Consumption findById(Long id) {
-		Optional<Consumption> obj = consumption.findById(id);
-		return obj.get();
-	}
-	
-	 public Consumption insert(Consumption obj) {
-	        return consumption.save(obj);
-	    }
+    @Autowired
+    private ConsumptionRepository consumptionRepository;
 
-	    public void delete(Long id) {
-	        if (!consumption.existsById(id)) {
-	            throw new EntityNotFoundException("Quarto não encontrado com id: " + id);
-	        }
-	        consumption.deleteById(id);
-	    }
+    @Autowired
+    private ReservationRepository reservationRepository;
+    
 
-	    public Consumption update(Long id, Consumption obj) {
-	        try {
-	        	Consumption entity = consumption.getReferenceById(id);
-	            updateData(entity, obj);
-	            return consumption.save(entity);
-	        } catch (EntityNotFoundException e) {
-	            throw new EntityNotFoundException("Quarto não encontrado com id: " + id);
-	        }
-	    }
 
-	    private void updateData(Consumption entity, Consumption obj) {
-	        entity.setDate(obj.getDate());;
-	        entity.setQuantity(obj.getQuantity());;
-	        entity.setProduct(obj.getProduct());
-	        entity.setReservation(obj.getReservation());
-	    }
-	
+    public List<Consumption> findAll() {
+        return consumptionRepository.findAll();
+    }
+
+    public Consumption findById(Long id) {
+        return consumptionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Consumption not found with id: " + id));
+    }
+
+    public Consumption insert(Consumption obj) {
+        Reservation reservation = obj.getReservation();
+
+        if (reservation != null) {
+            Optional<Reservation> existingReservation = reservationRepository.findById(reservation.getId());
+
+            if (existingReservation.isPresent()) {
+                obj.setReservation(existingReservation.get());
+            } else {
+
+                Reservation tempReservation = new Reservation();
+                reservationRepository.save(tempReservation);  
+                obj.setReservation(tempReservation);  
+            }
+        } else {
+
+            Reservation tempReservation = new Reservation();
+            reservationRepository.save(tempReservation);  
+            obj.setReservation(tempReservation);  
+        }
+
+        return consumptionRepository.save(obj);
+    }
+
+
+
+
+
+    public void delete(Long id) {
+        if (!consumptionRepository.existsById(id)) {
+            throw new EntityNotFoundException("Consumption not found with id: " + id);
+        }
+        consumptionRepository.deleteById(id);
+    }
+
+    public Consumption update(Long id, Consumption obj) {
+        try {
+            Consumption entity = consumptionRepository.getReferenceById(id);
+            updateData(entity, obj);
+            return consumptionRepository.save(entity);
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException("Consumption not found with id: " + id);
+        }
+    }
+
+    private void updateData(Consumption entity, Consumption obj) {
+        entity.setQuantity(obj.getQuantity());
+        entity.setProduct(obj.getProduct());
+
+        if (obj.getReservation() != null && obj.getReservation().getId() != null) {
+            Reservation reservation = reservationRepository.findById(obj.getReservation().getId())
+                    .orElseThrow(() -> new EntityNotFoundException(
+                            "Reservation not found with id: " + obj.getReservation().getId()));
+            entity.setReservation(reservation);
+        }
+    }
 }

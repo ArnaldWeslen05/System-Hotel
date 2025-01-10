@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 import com.arnaldwelen.SystemHotel.entites.enums.ReservationStatus;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -46,9 +46,10 @@ public class Reservation {
 
     @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL)
     private List<Payment> list = new ArrayList<>();
-
+    
     @OneToMany(mappedBy = "reservation")
     private List<Consumption> consumptions = new ArrayList<>();
+
 
     public Reservation() {
         this.reservationStatus = ReservationStatus.WAITING_PAYMENT.getCode();
@@ -59,8 +60,7 @@ public class Reservation {
         this.id = id;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
-        this.client = client;
-        this.room = room;
+        this.client = client;        this.room = room;
         this.setReservationStatus(reservationStatus != null ? reservationStatus : ReservationStatus.WAITING_PAYMENT);
     }
 
@@ -117,6 +117,15 @@ public class Reservation {
     public List<Consumption> getConsumptions() {
         return consumptions;
     }
+    public void addConsumption(Consumption consumption) {
+        if (consumption != null) {
+            if (this.consumptions == null) {
+                this.consumptions = new ArrayList<>();
+            }
+            this.consumptions.add(consumption);
+        }
+    }
+
 
     @Override
     public int hashCode() {

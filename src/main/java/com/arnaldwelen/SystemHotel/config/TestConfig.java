@@ -76,7 +76,6 @@ public class TestConfig implements CommandLineRunner {
         productRepository.save(product1);
 
         Consumption consumption1 = new Consumption();
-        consumption1.setDate(Instant.parse("2024-12-02T12:00:00Z"));
         consumption1.setProduct(product1);
         consumption1.setQuantity(2);
         consumption1.setReservation(reservation1);

@@ -1,9 +1,7 @@
 package com.arnaldwelen.SystemHotel.entites;
 
-import java.time.Instant;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
@@ -21,85 +19,77 @@ public class Consumption {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long consumptionId;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
-    private Instant date;
-
-	private Integer quantity;
-
+	
+	private Integer quantity; 
+	
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "reservation_id")
+	@JoinColumn(name = "reservation_id", nullable = false)
 	private Reservation reservation;
-
+	
 	@ManyToOne
-	@JoinColumn(name = "product_id")
+	@JoinColumn(name = "product_id", nullable = false)
 	private Product product;
-
-	public Consumption() {
-
+	
+	
+	public Consumption () {
+		
 	}
-	
-	
 
-	public Consumption(Long consumptionId,  Instant date, Integer quantity, Reservation reservation, Product product) {
+
+	public Consumption(Long consumptionId, Integer quantity, Reservation reservation, Product product) {
 		super();
 		this.consumptionId = consumptionId;
-		this.date = date;
 		this.quantity = quantity;
 		this.reservation = reservation;
 		this.product = product;
 	}
 
 
-
-	public Long getId() {
+	public Long getConsumptionId() {
 		return consumptionId;
 	}
 
-	public void setId(Long consumptionId) {
+
+	public void setConsumptionId(Long consumptionId) {
 		this.consumptionId = consumptionId;
 	}
 
-	public Instant getDate() {
-		return date;
-	}
-
-	public void setDate(Instant date) {
-		this.date = date;
-	}
 
 	public Integer getQuantity() {
 		return quantity;
 	}
 
+
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
+
 
 	public Reservation getReservation() {
 		return reservation;
 	}
 
+
 	public void setReservation(Reservation reservation) {
 		this.reservation = reservation;
 	}
 
+
 	public Product getProduct() {
 		return product;
 	}
+
 
 	public void setProduct(Product product) {
 		this.product = product;
 	}
 
 
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(consumptionId);
 	}
-
 
 
 	@Override
