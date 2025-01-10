@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.arnaldwelen.SystemHotel.entites.Consumption;
+import com.arnaldwelen.SystemHotel.entites.Product;
 import com.arnaldwelen.SystemHotel.entites.Reservation;
 import com.arnaldwelen.SystemHotel.repository.ConsumptionRepository;
 import com.arnaldwelen.SystemHotel.repository.ReservationRepository;
@@ -57,6 +58,21 @@ public class ConsumptionService {
         return consumptionRepository.save(obj);
     }
 
+    public double calculateTotalConsumption(Long reservationId) {
+
+        List<Consumption> consumptions = consumptionRepository.findByReservationId(reservationId);
+        
+        double total = 0;
+        
+        for (Consumption consumption : consumptions) {
+            Product product = consumption.getProduct();
+            int quantity = consumption.getQuantity(); 
+            double productPrice = product.getPrice(); 
+            total += quantity * productPrice; 
+        }
+        
+        return total;
+    }
 
 
 
