@@ -56,7 +56,6 @@ public class ConsumptionService {
 
 
     public double calculateTotalConsumption(Long reservationId) {
-
         List<Consumption> consumptions = consumptionRepository.findByReservationId(reservationId);
         
         double total = 0;

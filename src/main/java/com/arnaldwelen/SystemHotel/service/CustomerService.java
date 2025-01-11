@@ -23,7 +23,7 @@ public class CustomerService {
 
 	public Customer findById(Long id) {
 		Optional<Customer> obj = customer.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com id: " + id));
 	}
 
 	public Customer insert(Customer obj) {
@@ -44,7 +44,7 @@ public class CustomerService {
 			return customer.save(entity);
 
 		} catch (EntityNotFoundException e) {
-			throw new EntityNotFoundException("Client não encontrado com id: " + id);
+			throw new EntityNotFoundException("Cliente não encontrado com id: " + id);
 
 		}
 

@@ -38,12 +38,13 @@ public class ConsumptionController {
 		return ResponseEntity.ok().body(obj);
 	}
 
-	 @PostMapping("/{id}")
-	    public ResponseEntity<Consumption> createConsumption(@RequestBody Consumption consumption, @PathVariable Long id) {
-	        consumption.setReservation(new Reservation());  
-	        Consumption savedConsumption = service.insert(consumption, id);
-	        return ResponseEntity.status(HttpStatus.CREATED).body(savedConsumption);
-	    }
+	@PostMapping("/{id}")
+	public ResponseEntity<Consumption> createConsumption(@RequestBody Consumption consumption, @PathVariable Long id) {
+		consumption.setReservation(new Reservation());
+		Consumption savedConsumption = service.insert(consumption, id);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedConsumption);
+	}
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		service.delete(id);
